@@ -1,6 +1,7 @@
 package blobby
 
 import (
+	"bytes"
 	"slices"
 	"testing"
 )
@@ -34,7 +35,7 @@ func TestDecoding(t *testing.T) {
 		"hello",
 		"",
 	}, func(a []byte, b string) bool {
-		return slices.Equal(a, []byte(b))
+		return bytes.Equal(a, []byte(b))
 	}) {
 		t.Fail()
 	}

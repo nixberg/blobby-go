@@ -1,9 +1,9 @@
 package varint
 
 import (
+	"bytes"
 	"math/bits"
 	"math/rand"
-	"slices"
 	"testing"
 )
 
@@ -32,7 +32,7 @@ func TestDecodeValid(t *testing.T) {
 			t.Fail()
 		}
 
-		if !slices.Equal(Encode(value), vector.bytes) {
+		if !bytes.Equal(Encode(value), vector.bytes) {
 			t.Fail()
 		}
 	}
