@@ -12,18 +12,17 @@ var (
 	ErrTooLarge          = errors.New("varint: value too large for int")
 )
 
-func Decode(bytes []byte) (int, int, error) {
+func Decode(bytes []byte) (value int, length int, err error) {
 	if len(bytes) == 0 {
 		return 0, 0, ErrNoBytes
 	}
 
-	result := -1
-	length := 0
+	value = -1
 
 	for _, b := range bytes {
-		result += 1
-		result <<= 7
-		result |= int(b & 0b0111_1111)
+		value += 1
+		value <<= 7
+		value |= int(b & 0b0111_1111)
 
 		length += 1
 
@@ -31,7 +30,7 @@ func Decode(bytes []byte) (int, int, error) {
 			if 7*length > bits.UintSize-1 {
 				return 0, 0, ErrTooLarge
 			}
-			return result, length, nil
+			return value, length, nil
 		}
 	}
 

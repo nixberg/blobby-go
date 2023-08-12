@@ -12,7 +12,7 @@ var (
 	ErrDeduplicatedBlobIndex = errors.New("blobby: bad index for deduplicated blob")
 )
 
-func Decode(bytes []byte) ([][]byte, error) {
+func Decode(bytes []byte) (blobs [][]byte, err error) {
 	popVarint := func() (int, error) {
 		varint, length, err := varint.Decode(bytes)
 		if err != nil {
@@ -40,8 +40,6 @@ func Decode(bytes []byte) ([][]byte, error) {
 		deduplicatedBlobs = append(deduplicatedBlobs, bytes[:length])
 		bytes = bytes[length:]
 	}
-
-	blobs := [][]byte{}
 
 	for len(bytes) > 0 {
 		indexOrLength, err := popVarint()
